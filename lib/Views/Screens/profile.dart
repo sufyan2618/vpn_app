@@ -18,7 +18,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     // Get user email from Supabase auth service
-    final email = _authService.getCurrentUserEmail() ?? 'No email';
+    final email = authService.getCurrentUserEmail() ?? 'No email';
 
     // Get username from user metadata if available
     final user = Supabase.instance.client.auth.currentUser;
@@ -288,7 +288,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Navigator.pop(context);
                 setState(() => _isLoading = true);
                 try {
-                  await _authService.updateUsername(controller.text.trim());
+                  await authService.updateUsername(controller.text.trim());
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('Username updated successfully'),
@@ -362,7 +362,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Navigator.pop(context);
                 setState(() => _isLoading = true);
                 try {
-                  await _authService.updateEmail(emailController.text.trim());
+                  await authService.updateEmail(emailController.text.trim());
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('Email updated successfully. Please verify your new email.'),
@@ -436,7 +436,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Navigator.pop(context);
                 setState(() => _isLoading = true);
                 try {
-                  await _authService.updatePassword(newPasswordController.text);
+                  await authService.updatePassword(newPasswordController.text);
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('Password updated successfully'),

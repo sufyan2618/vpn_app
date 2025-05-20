@@ -95,6 +95,14 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF121A2E),
+      appBar: AppBar(
+        leading: InkWell(
+          onTap: (){
+            Navigator.pop(context);
+          },
+          child: Icon(Icons.arrow_back_rounded, color: Colors.white,),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -104,13 +112,13 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 60),
+                  const SizedBox(height: 15),
                   Center(
                     child: Column(
                       children: [
                         Container(
-                          width: 100,
-                          height: 100,
+                          width: 80,
+                          height: 80,
                           padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
                             color: const Color(0xFF1E2C45),
@@ -124,21 +132,26 @@ class _LoginPageState extends State<LoginPage> {
                             ],
                           ),
                           child: Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: const BoxDecoration(
-                              color: Color(0xFF121A2E),
+                            padding: EdgeInsets.all(0),
+                            height: 80,
+                            width: 80,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF00BCD4).withOpacity(0.1),
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(
-                              Icons.vpn_lock,
-                              color: Color(0xFF00BCD4),
-                              size: 40,
+                            child: ClipOval(
+                              child: Image.asset(
+                                'assets/images/logo.png',
+                                width: 60,
+                                height: 60,
+                                fit: BoxFit.cover, // Fill the entire space, may stretch the image
+                              ),
                             ),
                           ),
                         ),
                         const SizedBox(height: 20),
                         const Text(
-                          'SwiftShield VPN',
+                          'Wrap VPN',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 24,
@@ -161,7 +174,7 @@ class _LoginPageState extends State<LoginPage> {
                     duration: 600.ms,
                     curve: Curves.easeOutQuad,
                   ),
-                  const SizedBox(height: 60),
+                  const SizedBox(height: 15),
                   const Text(
                     'Login',
                     style: TextStyle(
@@ -212,7 +225,7 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                       ),
                     ).animate().shake(),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 15),
                   _buildTextField(
                     controller: _emailController,
                     labelText: 'Email',
@@ -286,7 +299,7 @@ class _LoginPageState extends State<LoginPage> {
                     delay: 800.ms,
                     duration: 400.ms,
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

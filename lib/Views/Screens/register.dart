@@ -109,7 +109,26 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 40),
+                  Center(
+                    child: Container(
+                      padding: EdgeInsets.all(0),
+                      height: 80,
+                      width: 80,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF00BCD4).withOpacity(0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: ClipOval(
+                        child: Image.asset(
+                          'assets/images/logo.png',
+                          width: 60,
+                          height: 60,
+                          fit: BoxFit.cover, // Fill the entire space, may stretch the image
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 30),
                   Text(
                     'Create Account',
                     style: TextStyle(
@@ -145,7 +164,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ],
                       ),
                     ).animate().shake(),
-                  SizedBox(height: 20),
+                  SizedBox(height: 15),
                   _buildTextField(
                     controller: _usernameController,
                     labelText: 'Username',
@@ -227,9 +246,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       return null;
                     },
                   ).animate().fade(delay: 600.ms).slideX(begin: 0.2, end: 0, duration: 400.ms),
-                  SizedBox(height: 30),
+                  SizedBox(height: 20),
                   _buildRegisterButton().animate().fade(delay: 700.ms).scale(duration: 400.ms),
-                  SizedBox(height: 24),
+                  SizedBox(height: 15),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

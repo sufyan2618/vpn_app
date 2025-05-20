@@ -5,9 +5,11 @@ import 'package:share_plus/share_plus.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:store_redirect/store_redirect.dart';
+import 'package:vpn_app/Controlllers/services/auth_service.dart';
 import 'package:vpn_app/Views/Screens/IPDetailsScreen.dart';
 import 'package:vpn_app/Views/Screens/LocationScreen.dart';
 import 'package:vpn_app/Views/Screens/profile.dart';
+import 'package:vpn_app/Views/Screens/register.dart';
 
 
 class SideNavigationBar extends StatefulWidget {
@@ -83,12 +85,21 @@ class _SideNavigationBarState extends State<SideNavigationBar> {
           ),
 
           SizedBox(height: 15),
+          authService.getCurrentUserEmail() != null ?
           _buildMenuItem(
             icon: CupertinoIcons.info_circle,
             title: 'Profile Page',
             onTap: () {
               Navigator.pop(context);
               Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+            },
+          ):
+          _buildMenuItem(
+            icon: Icons.login_rounded,
+            title: 'Login',
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage()));
             },
           ),
           // Main menu items
