@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:vpn_app/data/services/auth_service.dart';
 import 'package:vpn_app/Views/Screens/Home_screen.dart';
 
@@ -155,6 +156,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 duration: 400.ms,
               ),
 
+
               _buildSettingsOption(
                 title: 'Change email',
                 icon: Icons.email_outlined,
@@ -166,6 +168,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 duration: 400.ms,
               ),
 
+
               _buildSettingsOption(
                 title: 'Change password',
                 icon: Icons.lock_outline,
@@ -176,6 +179,19 @@ class _ProfilePageState extends State<ProfilePage> {
                 delay: 500.ms,
                 duration: 400.ms,
               ),
+              const SizedBox(height: 15),
+              _buildSettingsOption(
+                title: 'Delete account',
+                icon: Icons.delete_outline,
+                onTap: () => _showDeleteAccountDialog(context)
+                ).animate().fade(delay: 600.ms).slideX(
+                begin: 0.1,
+                end: 0,
+                delay: 600.ms,
+                duration: 400.ms,
+                ),
+
+
 
               _buildSettingsOption(
                 title: 'About this app',
@@ -187,6 +203,18 @@ class _ProfilePageState extends State<ProfilePage> {
                 delay: 600.ms,
                 duration: 400.ms,
               ),
+              // Add this to your profile or settings screen
+              _buildSettingsOption(
+                title: 'Data Deletion Policy',
+                icon: Icons.policy_outlined,
+                onTap: () async {
+                  const url = 'https://resilient-conkies-c78279.netlify.app/';
+                  if (await canLaunchUrl(Uri.parse(url))) {
+                    await launchUrl(Uri.parse(url));
+                  }
+                },
+              ),
+
 
               const SizedBox(height: 30),
 
@@ -520,6 +548,129 @@ class _ProfilePageState extends State<ProfilePage> {
             child: const Text(
               'Close',
               style: TextStyle(color: Color(0xFF00BCD4)),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _showDeleteAccountDialog(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: const Color(0xFF1E2C45),
+        title: const Text(
+          'Request Account Deletion',
+          style: TextStyle(color: Colors.white),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(
+              Icons.email_outlined,
+              color: const Color(0xFF00BCD4),
+              size: 48,
+            ),
+            const SizedBox(height: 15),
+            const Text(
+              'To delete your account, please send us an email request. We will process your request within 48 hours.',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white70),
+            ),
+            const SizedBox(height: 15),
+            Container(
+              padding: EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: const Color(0xFF121A2E),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                children: [
+                  const Text(
+                    'What happens next:',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  _buildStep('1', 'Email will open with pre-filled details'),
+                  _buildStep('2', 'We verify your identity'),
+                  _buildStep('3', 'Account deleted within 48 hours'),
+                  _buildStep('4', 'Confirmation email sent'),
+                ],
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child:const Text(
+              'Cancel',
+              style: TextStyle(color: Colors.white70),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              Navigator.pop(context);
+              try {
+                await authService.requestAccountDeletion();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Email client opened. Please send the email to complete your request.'),
+                    backgroundColor: const Color(0xFF00BCD4),
+                    duration: Duration(seconds: 4),
+                  ),
+                );
+              } catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Error: $e'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF00BCD4),
+            ),
+            child: const Text('Send Email Request'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStep(String number, String text) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2.0),
+      child: Row(
+        children: [
+          Container(
+            width: 20,
+            height: 20,
+            decoration:const BoxDecoration(
+              color:  Color(0xFF00BCD4),
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+              child: Text(
+                number,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              text,
+              style: const TextStyle(color: Colors.white70, fontSize: 12),
             ),
           ),
         ],
