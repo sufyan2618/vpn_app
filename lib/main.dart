@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,10 +14,11 @@ import 'package:vpn_app/Views/Screens/on_boarding_screen.dart';
 
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load();
   await Supabase.initialize(
-      url: "https://nvdvtbmoadsxzdgvvoit.supabase.co",
-      anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52ZHZ0Ym1vYWRzeHpkZ3Z2b2l0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc2NTM3MzMsImV4cCI6MjA2MzIyOTczM30.9jVWjQH6BzBj9HyCvKJkJPK-hF3CQ1fd01BEdvRKq7w");
-
+    url: dotenv.env['SUPABASE_URL']!,
+    anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
+  );
    await Pref.initializeHive();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])

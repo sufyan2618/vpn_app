@@ -52,7 +52,7 @@ class _RegisterPageState extends State<RegisterPage> {
       if (response.user != null && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Registration successful! Please verify your email.'),
+            content: Text('Registration successful! Please Login!.'),
             backgroundColor: Colors.green,
           ),
         );
